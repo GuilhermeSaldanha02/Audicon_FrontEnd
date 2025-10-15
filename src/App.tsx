@@ -1,11 +1,7 @@
+import { LoginPage } from './pages/Login'
+
 function App() {
-  return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-900 text-white">
-      <h1 className="text-4xl font-bold text-blue-500">
-        Audicon CQC Frontend
-      </h1>
-    </div>
-  )
+  return <LoginPage />
 }
 
 export default App
