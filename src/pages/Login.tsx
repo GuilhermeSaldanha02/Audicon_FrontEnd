@@ -1,25 +1,20 @@
 import { useState, FormEvent } from 'react';
-import api from '../services/api'; // Importa a nossa instância do Axios
+import { useAuth } from '../contexts/AuthContext.tsx'; // <-- IMPORTE O HOOK
 
 export function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const { login } = useAuth(); // <-- USE O CONTEXTO AQUI
 
   async function handleLogin(event: FormEvent) {
     event.preventDefault(); // Impede que a página recarregue
 
     try {
-      const response = await api.post('/auth/login', {
-        email: email,
-        password: password,
-      });
-
-      console.log('Login bem-sucedido!', response.data);
-      // Próximo passo: guardar o token e redirecionar
+      await login(email, password);
+      // Próximo passo: redirecionar para o dashboard
       
     } catch (error) {
-      console.error('Falha no login:', error);
-      alert('Email ou senha incorretos.');
+      alert('Falha no login. Verifique suas credenciais.');
     }
   }
 
