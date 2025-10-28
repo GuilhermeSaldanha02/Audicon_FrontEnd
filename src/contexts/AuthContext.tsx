@@ -1,10 +1,18 @@
-import { createContext, ReactNode, useContext, useState } from 'react';
+import { createContext, ReactNode, useContext, useState, useEffect } from 'react';
 import api from '../services/api';
+
+export interface RegisterFormData {
+  name: string;
+  email: string;
+  password: string;
+}
 
 interface AuthContextData {
   isAuthenticated: boolean;
+  isLoading: boolean;
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
+  register: (data: RegisterFormData) => Promise<void>;
 }
 
 const AuthContext = createContext({} as AuthContextData);
@@ -15,6 +23,16 @@ interface AuthProviderProps {
 
 export function AuthProvider({ children }: AuthProviderProps) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const token = localStorage.getItem('@audicon-cqc:token');
+    if (token) {
+      api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      setIsAuthenticated(true);
+    }
+    setIsLoading(false);
+  }, []);
 
   async function login(email: string, password: string) {
     try {
@@ -39,8 +57,20 @@ export function AuthProvider({ children }: AuthProviderProps) {
     setIsAuthenticated(false);
   }
 
+  // ADICIONAR ESTA NOVA FUNÇÃO
+  async function register(data: RegisterFormData) {
+    try {
+      // Endpoint /users para criar o utilizador
+      await api.post('/users', data);
+      console.log('Utilizador registado com sucesso!');
+    } catch (error) {
+      console.error('Falha no registo', error);
+      throw new Error('Não foi possível criar a conta. Verifique os dados.');
+    }
+  }
+
   return (
-    <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
+    <AuthContext.Provider value={{ isAuthenticated, isLoading, login, logout, register }}>
       {children}
     </AuthContext.Provider>
   );

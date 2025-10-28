@@ -1,5 +1,6 @@
 import { useState, FormEvent } from 'react';
 import { useAuth } from '../contexts/AuthContext.tsx'; // <-- IMPORTE O HOOK
+import { Link } from 'react-router-dom'; // <-- IMPORTAR O LINK
 
 export function LoginPage() {
   const [email, setEmail] = useState('');
@@ -83,6 +84,12 @@ export function LoginPage() {
             </button>
           </div>
         </form>
+        {/* ADICIONAR ESTE BLOCO */}
+        <div className="text-center text-sm">
+          <Link to="/register" className="font-medium text-blue-400 hover:text-blue-300">
+            Não tem uma conta? Crie uma agora
+          </Link>
+        </div>
       </div>
     </div>
   );
