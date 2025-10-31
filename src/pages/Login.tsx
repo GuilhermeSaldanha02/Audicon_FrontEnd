@@ -1,4 +1,5 @@
-import { useState, FormEvent } from 'react';
+import { useState } from 'react';
+import type { FormEvent } from 'react';
 import { useAuth } from '../contexts/AuthContext.tsx'; // <-- IMPORTE O HOOK
 import { Link } from 'react-router-dom'; // <-- IMPORTAR O LINK
 

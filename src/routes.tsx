@@ -3,7 +3,7 @@ import { LoginPage } from './pages/Login';
 import { DashboardPage } from './pages/Dashboard';
 import { RegisterPage } from './pages/RegisterPage';
 import { useAuth } from './contexts/AuthContext.tsx';
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
 function PrivateRoute({ children }: { children: ReactNode }) {
   const { isAuthenticated, isLoading } = useAuth();
